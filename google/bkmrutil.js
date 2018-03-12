@@ -23,25 +23,25 @@ for(var i=0;i<ss.length;i++){
 }
 return '';
 },
-// get the words contained in the strings of all headings
+// get the words contained in the strings of all headings that pass the filter criteria
 gWs=function(ht){
 var kw=[],
 ss=gSS(ht);
-ss.forEach(s=>{kw=kw.concat(s.toLowerCase().split(' '));});
+ss.forEach(s=>kw=kw.concat(s.toLowerCase().split(' ').filter(s=>s.length>3&&STWD.indexOf(s)<0)));
 return kw;
 },
 // get the keywords list from the heading tags of the given webpage while bookmarking
 gtKwH=function(){
-var aw=[], d1=new Map(), a2;
-l.forEach(t=>{aw=aw.concat(gWs(t));});
-aw.forEach(s=>{if(s.length>3&&STWD.indexOf(s)<0){var c=d1.has(s)? d1.get(s)+1 : 1;d1.set(s,c);}});
-a2=af(d1).sort((a,b)=>{return b[1]-a[1];}), 
-d1=new Map(a2.slice(0, 5));
+var aw=[], d1=new Map();
+l.forEach(t=>aw=aw.concat(gWs(t)));
+aw.forEach(s=>d1.set(s,d1.has(s)? d1.get(s)+1 : 1));
+aw=af(d1).sort((a,b)=>{return b[1]-a[1];}), 
+d1=new Map(aw.slice(0, 5));
 return af(d1.keys()).join(',');
 };
-
+// open the bookmarking url in a new window, code that was obtained from the original google bookmarklet
 var  t = gtTtl(), k = gtKwH(), s = gtSum(), w = window, e = encodeURIComponent, 
-l = "https://www.google.com/bookmarks/mark?op=edit&output=popup&bkmk=" + e(d.location) + "&title=" + e(t) + (k.length>0? "&labels=" + e(k) : "") + (s.length>0? "&annotation=" + e(s) : ""),
+l = "https://www.google.com/bookmarks/mark?op=edit&output=popup&bkmk=" + e(d.location) + "&title=" + e(t) + "&labels=" + e(k) + "&annotation=" + e(s),
 nw = w.open(l, "bkmk_popup", "left=" + ((w.screenX || w.screenLeft) + 10) + ",top=" + ((w.screenY || w.screenTop) + 10) + ",height=510px,width=550px,resizable=1,alwaysRaised=1");
 w.setTimeout(function () {
 	nw.focus();
