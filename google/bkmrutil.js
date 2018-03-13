@@ -32,12 +32,8 @@ return kw;
 },
 // get the keywords list from the heading tags of the given webpage while bookmarking
 gtKwH=function(){
-var aw=[], d1=new Map();
-l.forEach(t=>aw=aw.concat(gWs(t)));
-aw.forEach(s=>d1.set(s,d1.has(s)? d1.get(s)+1 : 1));
-aw=af(d1).sort((a,b)=>{return b[1]-a[1];}), 
-d1=new Map(aw.slice(0, 5));
-return af(d1.keys()).join(',');
+var d1=l.reduce((g,t)=>g.concat(gWs(t)), []).reduce((g,x)=>{g.set(x,(g.get(x)||0)+1);return g;}, new Map());
+return af(d1).sort((a,b)=>b[1]-a[1]).reduce((g,x)=>g+=x[0]+',','');
 };
 // open the bookmarking url in a new window, code that was obtained from the original google bookmarklet
 var  t = gtTtl(), k = gtKwH(), s = gtSum(), w = window, e = encodeURIComponent, 
