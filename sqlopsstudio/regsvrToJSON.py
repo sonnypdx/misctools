@@ -1,4 +1,4 @@
-# python script that converts the SSMS' regsvr file to JSON format that can imported into SQL Ops Studio
+# python script that converts the SSMS' regsvr file to JSON format that can be imported into SQL Ops Studio
 
 # import necessary modules
 import datetime
